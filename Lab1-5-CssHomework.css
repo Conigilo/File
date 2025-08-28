@@ -1,0 +1,79 @@
+/*Give the <body> element a background of #bda464*/
+body {
+	background-color : #bda464;
+  	font-family : 'Roboto', sans-serif;
+}
+
+/*Make the <h1> elements blue*/
+h1 {
+  	color : blue;
+  	font-family : 'Courier New', Courier, monospace;
+  	font-size : 35px;
+}
+/*Make all <li> elements in the shade of hexadecimal blue*/
+li {
+  	color : #0000FF;
+}
+/*Paragraph background to orange*/
+p {
+  	background-color : orange;
+}
+/*Make all <h3> have 5px red solid border*/
+h3{
+    border: 5px red solid;
+}
+/*Give everything with <abbr> bold and underlined*/
+abbr {
+  	font-style : bold;
+  	text-decoration: underline;
+}
+
+/*Give elements with class "explanation" red*/
+.explanation {
+  	color : red;
+}
+/*Give <p> in id "zen-benefits" pink background*/
+#zen-benefits {
+   background-color : pink;
+}
+/*Make <li> adjacent to <h2> red background*/
+h2~li {
+   background-color : red;
+}
+/*Give <em> inside <p> red and bold*/
+p em{
+    color: red;
+    font-weight: bold;
+}
+/* Give visited link green */
+a:visited{
+    color: green;
+}
+/* Change to body font to any google font as you like */
+body{
+    font-family: 'Lucida Sans';
+}
+/* Add any animation to <h1> (try the new one not same as the example) */
+h1 {
+  font-size: 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}

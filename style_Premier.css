@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f8f9fa;
+}
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    }
+
+table {
+      display:block;
+      overflow-x : auto;
+      white-space : nowrap;
+      border-collapse: collapse;
+      width: 50%;
+      margin: auto;
+    }
+
+th, td {
+      text-align: center;
+      padding: 12px;
+      border-bottom: 1px solid #ccc; 
+    }
+
+th {
+    background-color: #37003c;
+    color: white;
+    }
+
+tr:last-child td {
+      border-bottom: none;
+    }
+    
+td.club {
+      text-align: left;
+    }
+
+td.club img {
+      width: 20px;
+      vertical-align: middle;
+      margin-right: 20px;
+    }
+
+.result {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin: 0 2px;
+      border: 1px solid black;
+    }
+.win { background: green; }
+.draw { background: rgb(155, 151, 151); }
+.loss { background: red; }
+.no_math{background: #ffffff;}
+
+@media  (max-width: 600px){
+    table{
+        font-size: 14px;
+    }
+    .logo{
+        width: 16px;
+    }
+    
+}

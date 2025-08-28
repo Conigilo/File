@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Canvas Bouncing Ball</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+            margin: 16px
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 3/2;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px
+        }
+
+        button {
+            margin-top: 8px
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c2" aria-label="อนิเมชันลูกบอลเด้ง">ต้องการเบราว์เซอร์ที่รองรับ canvas</canvas>
+    <button id="toggle">หยุด</button>
+
+    <script>
+        (function () {
+            const canvas = document.getElementById('c2');
+            const ctx = canvas.getContext('2d');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let running = !reduceMotion;
+            let last = 0, rafId = null;
+
+            const ball = { x: 100, y: 80, r: 18, vx: 180, vy: 120 };
+
+            function resize() {
+                const dpr = Math.max(1, window.devicePixelRatio || 1);
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = Math.round(rect.width * dpr);
+                canvas.height = Math.round(rect.height * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            function draw(dt) {
+                const w = canvas.clientWidth, h = canvas.clientHeight;
+                // อัปเดตตำแหน่ง
+                ball.x += ball.vx * dt;
+                ball.y += ball.vy * dt;
+
+                // ชนขอบ
+                if (ball.x - ball.r < 0) { ball.x = ball.r; ball.vx *= -1; }
+                if (ball.x + ball.r > w) { ball.x = w - ball.r; ball.vx *= -1; }
+                if (ball.y - ball.r < 0) { ball.y = ball.r; ball.vy *= -1; }
+                if (ball.y + ball.r > h) { ball.y = h - ball.r; ball.vy *= -0.98; } // จำลองสูญเสียพลังงานเล็กน้อย
+
+                // แรงโน้มถ่วง
+                ball.vy += 600 * dt;
+
+                // เคลียร์
+                ctx.clearRect(0, 0, w, h);
+
+                // วาดลูกบอล
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+                const grd = ctx.createRadialGradient(ball.x - 6, ball.y - 6, 4, ball.x, ball.y, ball.r);
+                grd.addColorStop(0, '#60a5fa'); grd.addColorStop(1, '#1d4ed8');
+                ctx.fillStyle = grd; ctx.fill();
+                ctx.strokeStyle = '#1e3a8a'; ctx.lineWidth = 2; ctx.stroke();
+            }
+
+            function loop(ts) {
+                const now = ts / 1000;
+                const dt = Math.min(0.033, last ? (now - last) : 0); // จำกัด dt เพื่อความเสถียร
+                last = now;
+                draw(dt);
+                rafId = requestAnimationFrame(loop);
+            }
+
+            // เริ่มต้น
+            new ResizeObserver(resize).observe(canvas);
+            resize();
+            if (running) rafId = requestAnimationFrame(loop);
+
+            document.getElementById('toggle').addEventListener('click', () => {
+                running = !running;
+                if (running) { last = 0; rafId = requestAnimationFrame(loop); }
+                else { cancelAnimationFrame(rafId); }
+                document.getElementById('toggle').textContent = running ? 'หยุด' : 'เล่นต่อ';
+            });
+        })();
+    </script>
+</body>
+
+</html>
